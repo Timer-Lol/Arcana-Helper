@@ -26,11 +26,11 @@ the **Troubleshooting** tab, with a video):
 
 ![Lining up the board, wrong and right: a board one row off can still have a tile in every outline, so check the pin](https://raw.githubusercontent.com/Timer-Lol/Arcana-Helper/main/screenshots/helper-align-guide.jpg)
 
-**Video: lining up an old board** (the same one as on the Troubleshooting tab; click to play). Count the rows from the
+**Video: lining up an old board** (the same one as on the Troubleshooting tab). Count the rows from the
 bottom and set the tile you're on, then drag the board from the bottom row up until your pin sits in the cyan outline and
 the top row of outlines is on the board's top edge. The board then fills in by itself (or press **Take a picture now**).
 
-[![Video: lining up an old board with the helper's outlines (click to play)](https://raw.githubusercontent.com/Timer-Lol/Arcana-Helper/main/screenshots/lining-up-video.jpg)](https://github.com/Timer-Lol/Arcana-Helper/blob/main/screenshots/lining-up.mp4)
+![Video: lining up an old board with the helper's outlines](https://raw.githubusercontent.com/Timer-Lol/Arcana-Helper/main/screenshots/lining-up.webp)
 
 **The helper window:** the board with row numbers, your life, refill die, chests and hand, and the best move with its
 expected chest points and risk (here in Practice, which plays random boards without the game).
