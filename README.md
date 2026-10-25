@@ -51,4 +51,13 @@ newest 40 boards on your PC so a report has something to show (tray menu → **O
 - Without the installer: the folder copy still runs with `Start-Arcana-Helper-App.bat` if Node.js is installed
   (its first start downloads the app's parts); it keeps its board logs in its own `companion\sessions`.
 
+## Credits
+- **Arcasti** ([tli-warden](https://github.com/arcasti/tli-warden)): helped with the solver.
+- **Sif** ([tli-tools](https://github.com/WolfDan/tli-tools)): helped with the in-game textures and data.
+- **Members of Ruetoo's Community:**
+  - **Therapist**: a big contribution to fine-tuning the logic.
+  - **LobsterKite**, **Forszaken**, **Hasoon**: suggestions for the logic.
+  - **Radiar**, **BATMAN**: provided normal and special boards.
+- Vibe coded by **Timer**.
+
 See `LICENSE` for the terms of use.
