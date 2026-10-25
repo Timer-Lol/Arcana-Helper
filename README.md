@@ -6,6 +6,19 @@ your hand, the refill die and your chests — and suggests the best move after e
 How well does it play? See **[what the simulations found](https://github.com/Timer-Lol/Arcana-Helper/blob/main/SIMULATION-RESULTS.md)**:
 tens of thousands of simulated boards, what wins more rainbows, and tips for playing upgrade cards.
 
+## Screenshots
+**Over the game:** the helper marks the best tile with **GO** and what to use (**USE DIE**, **PLAY** on a card), gold
+outlines show where the board belongs, and the panel on the right follows the board as you play.
+
+![The helper over the game: GO on the best tile, USE DIE on the refill die, the panel on the right](https://raw.githubusercontent.com/Timer-Lol/Arcana-Helper/main/screenshots/in-game-go.jpg)
+
+![Later in the board: PLAY on the card to use, and the panel's board filled in from the game](https://raw.githubusercontent.com/Timer-Lol/Arcana-Helper/main/screenshots/in-game-play.jpg)
+
+**The helper window:** the board with row numbers, your life, refill die, chests and hand, and the best move with its
+expected chest points and risk (here in Practice, which plays random boards without the game).
+
+![The helper window in Practice: the board, life, refill die, hand and the best move](https://raw.githubusercontent.com/Timer-Lol/Arcana-Helper/main/screenshots/helper-app.jpg)
+
 ## Start here
 1. **Once, in the game:** Esc → Account Related → **Enable Log**, then log out and back in.
 2. Download **`Arcana-Helper-Setup.exe`** from the [Releases page](https://github.com/Timer-Lol/Arcana-Helper/releases/latest)
