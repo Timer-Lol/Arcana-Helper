@@ -1,0 +1,1 @@
+"use strict";const{contextBridge,ipcRenderer}=require("electron");contextBridge.exposeInMainWorld("panel",{zoom:e=>ipcRenderer.send("panel:zoom",+e||0),onZoom:e=>ipcRenderer.on("zoom:set",(n,o)=>e(o)),close:()=>ipcRenderer.send("panel:close"),noteDone:()=>ipcRenderer.send("panel:noteDone")});

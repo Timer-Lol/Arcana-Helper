@@ -1,0 +1,1 @@
+const{contextBridge,ipcRenderer}=require("electron");contextBridge.exposeInMainWorld("ArcanaCapture",{on:(e,a)=>["cap:start","cap:stop","cap:grab","cap:probe"].includes(e)&&ipcRenderer.on(e,(r,n)=>a(n)),state:e=>ipcRenderer.send("cap:state",e),frame:(e,a,r)=>ipcRenderer.send("cap:frame",e,a||null,r||null)});

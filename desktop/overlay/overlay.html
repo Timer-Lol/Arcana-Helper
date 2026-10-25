@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Arcana Helper overlay</title>
+<style>
+  /* Drawn over the game window. The marks never take clicks; the two guides take the mouse only while it is over them
+     (so they can be dragged or closed), everything else goes to the game. */
+  html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; font-family: "Segoe UI", system-ui, sans-serif; user-select: none; }
+  #marks { position: absolute; inset: 0; pointer-events: none; }
+  .mark { position: absolute; transform: translate(-50%, -50%); display: grid; place-items: center; font-weight: 800; letter-spacing: .04em; text-shadow: 0 1px 2px rgba(0,0,0,.9); pointer-events: none; }
+  .mark.fix { width: 34px; height: 34px; border-radius: 50%; border: 3px solid #ffcc55; color: #ffcc55; background: rgba(40, 24, 0, .55); font-size: 15px; box-shadow: 0 0 0 2px rgba(0,0,0,.55), 0 0 18px rgba(255,204,85,.75); animation: pulse 1.3s ease-in-out infinite; }
+  .mark.num { width: 22px; height: 16px; border-radius: 4px; background: rgba(10, 8, 22, .75); color: #e8e0f8; font-size: 11px; font-weight: 700; margin-left: 30px; margin-top: 14px; animation: none; box-shadow: 0 1px 3px rgba(0,0,0,.8); }
+  .mark.go { width: 54px; height: 54px; border-radius: 50%; border: 4px solid #58e08c; color: #58e08c; background: rgba(0, 30, 10, .35); font-size: 15px; box-shadow: 0 0 0 2px rgba(0,0,0,.55), 0 0 24px rgba(88,224,140,.85); animation: pulse 1.6s ease-in-out infinite; }
+  /* the card to play (or the refill die): a green frame round it, the word above */
+  .mark.gocard { border: 4px solid #58e08c; border-radius: 10px; background: rgba(88, 224, 140, .12); box-shadow: 0 0 0 2px rgba(0,0,0,.6), 0 0 26px rgba(88,224,140,.9); animation: glow 1.4s ease-in-out infinite; }
+  .mark.gocard b { position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%); white-space: nowrap; background: #58e08c; color: #06210f; font-size: 14px; font-weight: 800; padding: 2px 8px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,.6); text-shadow: none; }
+  @keyframes glow { 0%, 100% { box-shadow: 0 0 0 2px rgba(0,0,0,.6), 0 0 14px rgba(88,224,140,.6); } 50% { box-shadow: 0 0 0 2px rgba(0,0,0,.6), 0 0 30px rgba(88,224,140,1); } }
+  @keyframes pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.12); } }
+
+  /* where the board belongs: gold outlines of its 20 tile holes, an arrow from where it is, and a banner */
+  #align { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  #align .home { fill: rgba(255, 204, 85, .10); stroke: #ffcc55; stroke-width: 2.5; stroke-dasharray: 7 5; filter: drop-shadow(0 0 4px rgba(0,0,0,.9)); }
+  #align.done .home { stroke: #58e08c; fill: rgba(88, 224, 140, .14); stroke-dasharray: none; }
+  #align .cur { fill: none; stroke: rgba(255, 120, 120, .85); stroke-width: 2; }
+  #align .arrow { stroke: #ffcc55; stroke-width: 5; stroke-linecap: round; filter: drop-shadow(0 0 3px rgba(0,0,0,.9)); }
+  #align .arrowhead { fill: #ffcc55; }
+  #alignMsg { position: absolute; left: 50%; top: 14px; transform: translateX(-50%); background: rgba(40, 24, 0, .92); border: 2px solid #ffcc55; color: #ffe2a0; border-radius: 12px; padding: 8px 16px; font-size: 15px; font-weight: 600; text-align: center; box-shadow: 0 6px 24px rgba(0,0,0,.6); pointer-events: none; max-width: 70%; }
+  #alignMsg small { display: block; font-weight: 400; font-size: 12px; color: #e8d3a8; margin-top: 2px; }
+  #alignMsg.done { border-color: #58e08c; color: #b8f5cc; background: rgba(0, 30, 10, .9); }
+  #alignMsg[hidden], #align[hidden] { display: none; }
+  /* the reminder at the top of the game: "choose a special board if it procs" (below the board message when both show) */
+  #hint { position: absolute; left: 50%; top: 14px; transform: translateX(-50%); background: rgba(10, 8, 22, .92); border: 2px solid #c9a5ff; color: #ecdcff; border-radius: 12px; padding: 8px 16px; font-size: 15px; font-weight: 600; text-align: center; box-shadow: 0 6px 24px rgba(0,0,0,.6); pointer-events: none; max-width: 70%; }
+  #hint.under { top: 70px; }
+  #hint[hidden] { display: none; }
+  #toast { position: absolute; left: 50%; bottom: 18%; transform: translateX(-50%); background: rgba(10, 8, 22, .92); border: 2px solid #58e08c; color: #b8f5cc; border-radius: 12px; padding: 8px 16px; font-size: 15px; font-weight: 600; box-shadow: 0 6px 24px rgba(0,0,0,.6); pointer-events: none; }
+  #toast[hidden] { display: none; }
+  .sheet { position: absolute; max-height: calc(100% - 16px); overflow: hidden; background: rgba(10, 8, 22, .9); border: 1px solid rgba(232, 200, 120, .55); border-radius: 12px; color: #ece6f6; font-size: 12px; box-shadow: 0 6px 24px rgba(0,0,0,.5); }
+  .sheet[hidden] { display: none; }
+  .sheet .bar { display: flex; align-items: center; gap: 8px; padding: 6px 8px 6px 12px; cursor: grab; background: rgba(232, 200, 120, .1); border-bottom: 1px solid rgba(232, 200, 120, .25); }
+  .sheet.dragging .bar { cursor: grabbing; }
+  .sheet .bar h2 { margin: 0; flex: 1; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #e8c878; }
+  .sheet .bar .grip { color: rgba(232, 200, 120, .6); font-size: 13px; letter-spacing: -2px; }
+  .sheet .bar button { all: unset; cursor: pointer; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 6px; color: #cfc6e0; font-size: 15px; }
+  .sheet .bar button:hover { background: rgba(255,255,255,.12); color: #fff; }
+  .sheet .body { padding: 8px 12px 10px; display: grid; gap: 6px; }
+  .sheet h3 { margin: 4px 0 0; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #b9a6e8; font-weight: 600; }
+  .row { display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 4px 6px; }
+  .it { display: grid; justify-items: center; gap: 2px; text-align: center; line-height: 1.15; }
+  .it img { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 1px 2px rgba(0,0,0,.8)); }
+  .it span { color: #cfc6e0; font-size: 11px; }
+  .it b { color: #fff; font-weight: 600; }
+  .note { color: #a89fc0; font-size: 11px; }
+  .note kbd { font: 600 10px/1 "Segoe UI", sans-serif; padding: 2px 4px; border: 1px solid rgba(255,255,255,.3); border-radius: 4px; color: #fff; }
+
+  /* the card guide: the top of each card, as the hand shows it */
+  #legend { width: 300px; }
+  #cards { width: 430px; }
+  .cardrow { display: grid; grid-template-columns: 74px repeat(6, 1fr); gap: 4px; align-items: center; }
+  .lab { color: #fff; font-weight: 600; line-height: 1.15; }
+  .lab span { display: block; color: #a89fc0; font-weight: 400; font-size: 10px; }
+  .c { display: grid; justify-items: center; gap: 1px; }
+  .c img { width: 44px; height: 54px; object-fit: cover; object-position: top; border-radius: 4px; border: 1px solid rgba(0,0,0,.6); }
+  .c i { font-style: normal; color: #ece6f6; font-size: 11px; font-weight: 600; }
+  .ups { display: grid; grid-template-columns: 74px repeat(3, 1fr); gap: 4px; align-items: center; }
+  .ups .head { color: #a89fc0; font-size: 10px; text-align: center; }
+  .ups .c img { width: 40px; height: 40px; }
+  .choose { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+  .choose .c b { color: #fff; font-size: 11px; font-weight: 600; text-align: center; line-height: 1.1; }
+  .choose .c span { color: #a89fc0; font-size: 10px; }
+</style>
+</head>
+<body>
+<svg id="align" hidden></svg>
+<div id="alignMsg" hidden role="status"></div>
+<div id="hint" hidden role="status"></div>
+<div id="marks"></div>
+<div id="toast" hidden></div>
+<div class="sheet" id="legend" hidden data-sheet="legend">
+  <div class="bar"><span class="grip" aria-hidden="true">⋮⋮</span><h2>Icon guide</h2><button data-close="legend" title="Hide the icon guide" aria-label="Hide the icon guide">×</button></div>
+  <div class="body" id="legendBody"></div>
+</div>
+<div class="sheet" id="cards" hidden data-sheet="cards">
+  <div class="bar"><span class="grip" aria-hidden="true">⋮⋮</span><h2>Card guide</h2><button data-close="cards" title="Hide the card guide" aria-label="Hide the card guide">×</button></div>
+  <div class="body" id="cardsBody"></div>
+</div>
+<script>(function(){const l=e=>document.getElementById(e),E=l("marks");let $="",y={},_={};const H=e=>String(e).replace(/[&<>"]/g,t=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[t]),C=e=>e?`<kbd>${H(e.replace("Control","Ctrl"))}</kbd>`:"no hotkey",b=(e,t,s)=>`<div class="it"><img src="${$}/reference/sprites/tiles/${e}" alt=""><b>${t}</b>${s?`<span>${s}</span>`:""}</div>`,f=(e,t)=>`<div class="it"><img src="${$}/reference/sprites/chests/${e}" alt=""><b>${t}</b></div>`,w=e=>`${$}/reference/sprites/cards/UI_S9Gameplay_Card_${String(e).padStart(2,"0")}.png`,L=(e,t)=>`<div class="c"><img src="${w(e)}" alt=""><i>${t}</i></div>`;function O(){l("legendBody").innerHTML=`
+      <h3>Chests (rarity)</h3>
+      <div class="row">${f("2-green.png","Green")}${f("3-blue.png","Blue")}${f("4-purple.png","Purple")}${f("5-gold.png","Gold")}${f("6-red.png","Red")}${f("7-rainbow.png","Rainbow")}</div>
+      <h3>Tiles</h3>
+      <div class="row">${b("UI_S9Gameplay_00_ICON_kouxue_Sprite.png","Trap","\u22121 life")}${b("UI_S9Gameplay_00_Dikuaihp01.png","Heal","+1 to +3")}${b("UI_S9Gameplay_00_ICON_wenhao128_Sprite.png","Mystery","always good")}${b("UI_S9Gameplay_00_ICON_cards128_Sprite.png","Cards","1 to 3 cards")}${b("UI_S9Gameplay_00_DikuaiCard01.png","Upgrade","an upgrade card")}</div>
+      <div class="note">On the board: <b style="color:#58e08c">GO</b> = the move to make \xB7 <b style="color:#ffcc55">a number</b> = set that tile in the helper. Drag this guide by its top bar. Hide: \xD7 or ${C(y.legend)} \xB7 card guide: ${C(y.cards)}</div>`;const e=s=>[1,2,3,4,5,6].map(i=>L(s+i-1,i)).join(""),t=[["Blue",42],["Purple",45],["Gold",36],["Red",39]].map(([s,i])=>`<div class="lab">\u2264 ${s}<span>chests up to ${s.toLowerCase()}</span></div>${L(i,"")}${L(i+1,"")}${L(i+2,"")}`).join("");l("cardsBody").innerHTML=`
+      <h3>Move cards (the die face is the number)</h3>
+      <div class="cardrow"><div class="lab">Advance<span>gold die, forward</span></div>${e(20)}</div>
+      <div class="cardrow"><div class="lab">Retreat<span>dark die, back</span></div>${e(11)}</div>
+      <h3>Choose cards (you pick the number)</h3>
+      <div class="choose">
+        <div class="c"><img src="${w(26)}" alt=""><b>Choose 1\u20136</b><span>gold "?" die</span></div>
+        <div class="c"><img src="${w(31)}" alt=""><b>Choose odd</b><span>1, 3 or 5</span></div>
+        <div class="c"><img src="${w(32)}" alt=""><b>Choose even</b><span>2, 4 or 6</span></div>
+        <div class="c"><img src="${w(30)}" alt=""><b>Back 1\u20133</b><span>dark dice, back</span></div>
+      </div>
+      <h3>Upgrade cards (each chest goes up one tier)</h3>
+      <div class="ups"><div></div><div class="head">1 chest</div><div class="head">2 chests</div><div class="head">3 chests</div>${t}</div>
+      <div class="note">The game shows only the top of each card in your hand. Odd and even look alike: odd has a 1, 3 and 5 on its dice; even 2, 4 and 6. Drag by the top bar \xB7 hide: \xD7 or ${C(y.cards)}</div>`}let k=!1,o=null,I=null;const x=()=>{const e=k||!!o;e!==I&&(I=e,window.overlay.interactive(e))},U=e=>{const t=e&&e.target&&e.target.closest?e.target.closest(".sheet"):null;k=!!(t&&!t.hidden),x()};window.addEventListener("mousemove",U),document.documentElement.addEventListener("mouseleave",()=>{o||(k=!1,x())});for(const e of document.querySelectorAll(".sheet"))e.querySelector(".bar").addEventListener("mousedown",t=>{if(t.button!==0||t.target.closest("button"))return;const s=e.getBoundingClientRect();o={el:e,dx:t.clientX-s.left,dy:t.clientY-s.top},e.classList.add("dragging"),x(),t.preventDefault()});window.addEventListener("mousemove",e=>{if(!o)return;const{el:t}=o,s=window.innerWidth,i=window.innerHeight,n=Math.max(0,Math.min(s-t.offsetWidth,e.clientX-o.dx)),d=Math.max(0,Math.min(i-40,e.clientY-o.dy));t.style.left=n+"px",t.style.top=d+"px"}),window.addEventListener("mouseup",()=>{if(!o)return;const{el:e}=o;o=null,e.classList.remove("dragging");const t=window.innerWidth,s=window.innerHeight,i=e.offsetLeft/Math.max(1,t),n=e.offsetTop/Math.max(1,s);_[e.dataset.sheet]={x:i,y:n},window.overlay.moved(e.dataset.sheet,i,n),x()}),document.addEventListener("click",e=>{const t=e.target.closest("[data-close]");t&&(window.overlay.close(t.dataset.close),k=!1,x())});function B(e,t){const s=l(e);if(s.hidden||o)return;const i=window.innerWidth,n=window.innerHeight,d=_[e];let r=d?d.x*i:t(i,s.offsetWidth),c=d?d.y*n:12;r=Math.max(0,Math.min(i-s.offsetWidth,r)),c=Math.max(0,Math.min(Math.max(0,n-40),c)),s.style.left=r+"px",s.style.top=c+"px"}function G(){B("legend",()=>12),B("cards",(e,t)=>e-t-12)}window.addEventListener("resize",G);function j(e,t,s){const i=l("align"),n=l("alignMsg");if(!e||!e.picW){i.setAttribute("hidden",""),n.hidden=!0;return}const d=t/e.picW,r=s/e.picH,c=60*e.s*d,a=34*e.s*r,A=([m,M],F)=>{const p=m*d,g=M*r;return`<polygon class="${F}" points="${(p-c).toFixed(1)},${g.toFixed(1)} ${p.toFixed(1)},${(g-a).toFixed(1)} ${(p+c).toFixed(1)},${g.toFixed(1)} ${p.toFixed(1)},${(g+a).toFixed(1)}"/>`};let S=e.home.map(m=>A(m,"home")).join("");if(e.moved&&e.cur){S+=e.cur.map(h=>A(h,"cur")).join("");const m=h=>[h.reduce((v,u)=>v+u[0],0)/h.length*d,h.reduce((v,u)=>v+u[1],0)/h.length*r],[M,F]=m(e.cur),[p,g]=m(e.home),W=Math.hypot(p-M,g-F);if(W>30){const h=(p-M)/W,v=(g-F)/W,u=p-h*22,T=g-v*22;S+=`<line class="arrow" x1="${M.toFixed(1)}" y1="${F.toFixed(1)}" x2="${u.toFixed(1)}" y2="${T.toFixed(1)}"/><polygon class="arrowhead" points="${p.toFixed(1)},${g.toFixed(1)} ${(u-v*13).toFixed(1)},${(T+h*13).toFixed(1)} ${(u+v*13).toFixed(1)},${(T-h*13).toFixed(1)}"/>`}}i.setAttribute("viewBox",`0 0 ${t} ${s}`),i.innerHTML=S,i.removeAttribute("hidden"),i.classList.toggle("done",!!e.done),n.classList.toggle("done",!!e.done),e.done?(n.innerHTML="Board lined up \u2713",n.hidden=!1):e.moved?(n.innerHTML="The board was moved: drag it back so the tiles sit in the gold outlines<small>(follow the arrow; this goes away by itself once it's back in place)</small>",n.hidden=!1):(n.innerHTML="Board outline: the tiles should sit in the gold outlines",n.hidden=!1)}window.overlay.onData(e=>{const t=JSON.stringify(e.keys||{});(e.base&&e.base!==$||t!==JSON.stringify(y))&&($=e.base||$,y=e.keys||{},O()),e.sheets&&(_=Object.assign({},e.sheets,o?{[o.el.dataset.sheet]:_[o.el.dataset.sheet]}:{}));const s=window.innerWidth,i=window.innerHeight,n=e.picW?s/e.picW:0,d=e.picH?i/e.picH:0;j(e.align,s,i);const r=l("toast");e.toast?(r.textContent=e.toast,r.hidden=!1):r.hidden=!0;const c=l("hint");e.hint?(c.textContent=e.hint,c.hidden=!1,c.classList.toggle("under",!l("alignMsg").hidden)):c.hidden=!0,E.innerHTML=(e.marks||[]).map(a=>a.kind==="go-card"?`<div class="mark gocard" style="left:${(a.x*n).toFixed(0)}px;top:${(a.y*d).toFixed(0)}px;width:${Math.max(30,a.w*n).toFixed(0)}px;height:${Math.max(30,a.h*d).toFixed(0)}px"><b>${H(a.label||"PLAY")}</b></div>`:`<div class="mark ${a.kind==="go"?"go":a.kind==="num"?"num":"fix"}" style="left:${(a.x*n).toFixed(0)}px;top:${(a.y*d).toFixed(0)}px">${H(a.label||"")}</div>`).join(""),l("legend").hidden=!e.legend,l("cards").hidden=!e.cards,!e.legend&&!e.cards&&!o&&(k=!1,x()),G()})})();
+</script>
+</body>
+</html>

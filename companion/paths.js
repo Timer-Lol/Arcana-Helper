@@ -1,0 +1,1 @@
+"use strict";const path=require("path"),DATA=process.env.ARCANA_DATA?path.resolve(process.env.ARCANA_DATA):__dirname;try{require("fs").mkdirSync(DATA,{recursive:!0})}catch{}module.exports={DATA,SESSIONS:path.join(DATA,"sessions"),SHOTS:path.join(DATA,"shots"),CAPTURES:path.join(DATA,"captures"),SETTINGS:path.join(DATA,"settings.json"),ME:path.join(DATA,"helper.json")};

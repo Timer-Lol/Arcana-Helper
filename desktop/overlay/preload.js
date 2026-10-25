@@ -1,0 +1,1 @@
+"use strict";const{contextBridge,ipcRenderer}=require("electron");contextBridge.exposeInMainWorld("overlay",{onData:e=>ipcRenderer.on("overlay:data",(o,r)=>e(r)),interactive:e=>ipcRenderer.send("overlay:interactive",!!e),moved:(e,o,r)=>ipcRenderer.send("overlay:moved",{sheet:String(e),x:+o,y:+r}),close:e=>ipcRenderer.send("overlay:close",String(e))});
