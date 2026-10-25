@@ -68,8 +68,14 @@ Ctrl+Alt+T keep on top · Ctrl+Alt+P the panel. On keyboards where AltGr types a
 The helper is closed source to protect its solver and odds from being copied and resold, not to hide what it does.
 Here is exactly what it does with your PC and your data:
 
-- **Nothing is sent unless you send it.** There's no tracking, no analytics, no account and no login. The only thing
-  that ever leaves your PC is a bug report, and only when you press **Send report**.
+- **Nothing is sent unless you send it.** There's no tracking, no analytics, no account and no login. The only things
+  that ever leave your PC are a bug report, when you press **Send report**, and your board logs if you turn on
+  **Send my board logs**.
+- **Sending board logs is your choice, and off unless you turn it on.** On first start the helper asks once whether
+  you'd like to send your board logs to help train the screen reader (they make it read boards more accurately and
+  faster for everyone). It stays off unless you switch it on. If you do, only boards you play from then on go, a few at
+  a time (at most 8 uploads a day), with the same scrubbed lines and game-window pictures as a bug report, and no
+  name unless you add one. Turn it off any time in **Settings → Board logs**.
 - **You see a report before it goes.** Ctrl+Alt+J opens the report first: **See exactly what will be sent** shows
   every line and picture in it, and **Cancel** sends nothing. Your name is optional; leave it blank to stay anonymous.
 - **The game log is scrubbed before anything is saved.** The helper keeps only the game's Tarot Path (Arcana) lines.
@@ -85,8 +91,8 @@ Here is exactly what it does with your PC and your data:
   listens on `127.0.0.1` only, so nothing else on your network can reach it.
 - **No admin needed.** The installer installs just for your Windows user.
 - **Its only internet use:** the page's fonts load from Google Fonts, the installed app checks this GitHub page's
-  releases for a newer version (it only reads the public release list), and a bug report goes to the author's own
-  server when you send one. Nothing else.
+  releases for a newer version (it only reads the public release list), and a bug report (when you send one) and your
+  board logs (if you turned that on) go to the author's own server, which doesn't keep your IP address. Nothing else.
 - **You can check it yourself.** Only the solver is compiled. The parts that handle your data (the log scrubber, the
   bug report, the board logs) ship as JavaScript in the `companion` folder: minified (shortened), not compiled or encrypted, so anyone can read it. Watch the helper with any
   firewall or network monitor, or scan the Setup.exe on [VirusTotal](https://www.virustotal.com) before you run it.
@@ -99,7 +105,8 @@ the tray menu.
 
 A bug report holds that board's game lines (only the game's Tarot Path lines: chat, friends, account, player ids and
 everything else are dropped before anything is written), the helper's pictures of the game window (never your whole
-screen), what the helper held at that moment, and your note. Nothing is sent at any other time. The helper keeps the
+screen), what the helper held at that moment, and your note. Nothing else is sent unless you turned on **Send my board
+logs**. The helper keeps the
 newest 40 boards on your PC so a report has something to show (tray menu → **Open the board logs folder**).
 
 ## If something's wrong

@@ -1,1 +1,1 @@
-"use strict";const{contextBridge,ipcRenderer}=require("electron");contextBridge.exposeInMainWorld("appWindow",{zoom:e=>ipcRenderer.send("helper:zoom",+e||0),onZoom:e=>ipcRenderer.on("zoom:set",(n,o)=>e(o))});
+"use strict";const{contextBridge,ipcRenderer}=require("electron");contextBridge.exposeInMainWorld("appWindow",{zoom:e=>ipcRenderer.send("helper:zoom",+e||0),onZoom:e=>ipcRenderer.on("zoom:set",(n,o)=>e(o)),attention:()=>ipcRenderer.send("helper:attention")});
