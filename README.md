@@ -3,32 +3,6 @@
 Advice for the Arcana (Tarot Path) minigame in Torchlight Infinite. The helper reads the game as you play — the board,
 your hand, the refill die and your chests — and suggests the best move after each one.
 
-## Your data stays yours
-The helper is closed source to protect its solver and odds from being copied and resold, not to hide what it does.
-Here is exactly what it does with your PC and your data:
-
-- **Nothing is sent unless you send it.** There's no tracking, no analytics, no account and no login. The only thing
-  that ever leaves your PC is a bug report, and only when you press **Send report**.
-- **You see a report before it goes.** Ctrl+Alt+J opens the report first: **See exactly what will be sent** shows
-  every line and picture in it, and **Cancel** sends nothing. Your name is optional; leave it blank to stay anonymous.
-- **The game log is scrubbed before anything is saved.** The helper keeps only the game's Tarot Path (Arcana) lines.
-  Chat, friends, account details, player ids, server addresses and everything else are dropped before a line is ever
-  written to disk, so they can't end up in a report.
-- **Pictures are of the game window only.** The helper never saves your whole screen or other windows. If Windows
-  has to capture the screen, the picture is cropped to the game window before it's kept.
-- **It only reads; it never touches the game.** It reads the game's log file (read-only) and takes pictures of the
-  game window. It doesn't read or change the game's memory or files, and it never clicks or presses keys for you.
-- **Everything stays on your PC.** Settings, logs and pictures are in `%APPDATA%\Arcana Helper`. Only your newest 40
-  boards are kept. Delete the folder whenever you like; uninstalling never sends anything.
-- **The solver runs on your PC.** Every answer is worked out locally, not on a server. The helper's own server
-  listens on `127.0.0.1` only, so nothing else on your network can reach it.
-- **No admin needed.** The installer installs just for your Windows user.
-- **Its only internet use:** the page's fonts load from Google Fonts, and a bug report goes to the author's own
-  server when you send one. Nothing else.
-- **You can check it yourself.** Only the solver is compiled. The parts that handle your data (the log scrubber, the
-  bug report, the board logs) ship as JavaScript in the `companion` folder: minified (shortened), not compiled or encrypted, so anyone can read it. Watch the helper with any
-  firewall or network monitor, or scan the Setup.exe on [VirusTotal](https://www.virustotal.com) before you run it.
-
 ## Start here
 1. **Once, in the game:** Esc → Account Related → **Enable Log**, then log out and back in.
 2. Download **`Arcana-Helper-Setup.exe`** from the [Releases page](https://github.com/Timer-Lol/Arcana-Helper/releases/latest)
@@ -54,6 +28,32 @@ it; drag its top bar to move it).
 Ctrl+Alt+T keep on top · Ctrl+Alt+P the panel. On keyboards where AltGr types accented letters, pick other keys.
 
 **Text size:** A− / A+ in the helper window and in the panel (or Ctrl + − / + / 0, Ctrl + scroll). Each keeps its own.
+
+## Your data stays yours
+The helper is closed source to protect its solver and odds from being copied and resold, not to hide what it does.
+Here is exactly what it does with your PC and your data:
+
+- **Nothing is sent unless you send it.** There's no tracking, no analytics, no account and no login. The only thing
+  that ever leaves your PC is a bug report, and only when you press **Send report**.
+- **You see a report before it goes.** Ctrl+Alt+J opens the report first: **See exactly what will be sent** shows
+  every line and picture in it, and **Cancel** sends nothing. Your name is optional; leave it blank to stay anonymous.
+- **The game log is scrubbed before anything is saved.** The helper keeps only the game's Tarot Path (Arcana) lines.
+  Chat, friends, account details, player ids, server addresses and everything else are dropped before a line is ever
+  written to disk, so they can't end up in a report.
+- **Pictures are of the game window only.** The helper never saves your whole screen or other windows. If Windows
+  has to capture the screen, the picture is cropped to the game window before it's kept.
+- **It only reads; it never touches the game.** It reads the game's log file (read-only) and takes pictures of the
+  game window. It doesn't read or change the game's memory or files, and it never clicks or presses keys for you.
+- **Everything stays on your PC.** Settings, logs and pictures are in `%APPDATA%\Arcana Helper`. Only your newest 40
+  boards are kept. Delete the folder whenever you like; uninstalling never sends anything.
+- **The solver runs on your PC.** Every answer is worked out locally, not on a server. The helper's own server
+  listens on `127.0.0.1` only, so nothing else on your network can reach it.
+- **No admin needed.** The installer installs just for your Windows user.
+- **Its only internet use:** the page's fonts load from Google Fonts, and a bug report goes to the author's own
+  server when you send one. Nothing else.
+- **You can check it yourself.** Only the solver is compiled. The parts that handle your data (the log scrubber, the
+  bug report, the board logs) ship as JavaScript in the `companion` folder: minified (shortened), not compiled or encrypted, so anyone can read it. Watch the helper with any
+  firewall or network monitor, or scan the Setup.exe on [VirusTotal](https://www.virustotal.com) before you run it.
 
 ## Something wrong? Send a bug report
 Press **Ctrl+Alt+J** (it works while you're in the game; change the key on the Hotkeys tab). The helper saves that
