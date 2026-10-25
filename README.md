@@ -14,6 +14,24 @@ outlines show where the board belongs, and the panel on the right follows the bo
 
 ![Later in the board: PLAY on the card to use, and the panel's board filled in from the game](https://raw.githubusercontent.com/Timer-Lol/Arcana-Helper/main/screenshots/in-game-play.jpg)
 
+**Lining up the board:** when a board needs lining up (it was dragged, or you joined a board mid-way), gold outlines show
+where every tile belongs and a cyan **YOUR PIECE** outline shows where your pin goes. A small card on the game repeats
+the checks (drag it anywhere, × hides it). The marks and outlines follow the board smoothly as you drag it, and near the
+board's end only the rows the game shows get outlines.
+
+![Lining up the board: gold outlines, the cyan YOUR PIECE outline, the lining-up card and the banner](https://raw.githubusercontent.com/Timer-Lol/Arcana-Helper/main/screenshots/in-game-align.jpg)
+
+The helper shows wrong and right examples the first time you set your tile or turn the board outline on (they're also on
+the **Troubleshooting** tab, with a video):
+
+![Lining up the board, wrong and right: a board one row off can still have a tile in every outline, so check the pin](https://raw.githubusercontent.com/Timer-Lol/Arcana-Helper/main/screenshots/helper-align-guide.jpg)
+
+**Video: lining up an old board** (the same one as on the Troubleshooting tab; click to play). Count the rows from the
+bottom and set the tile you're on, then drag the board from the bottom row up until your pin sits in the cyan outline and
+the top row of outlines is on the board's top edge. The board then fills in by itself (or press **Take a picture now**).
+
+[![Video: lining up an old board with the helper's outlines (click to play)](https://raw.githubusercontent.com/Timer-Lol/Arcana-Helper/main/screenshots/lining-up-video.jpg)](https://github.com/Timer-Lol/Arcana-Helper/blob/main/screenshots/lining-up.mp4)
+
 **The helper window:** the board with row numbers, your life, refill die, chests and hand, and the best move with its
 expected chest points and risk (here in Practice, which plays random boards without the game).
 
@@ -88,7 +106,7 @@ newest 40 boards on your PC so a report has something to show (tray menu → **O
 - **No pictures / black pictures:** play windowed or borderless. If the game runs as administrator, right-click
   **Arcana Helper** in the Start menu → Run as administrator. The tray menu's **Save a test picture** checks that pictures work.
 - **"No game detail lines":** turn on Enable Log in the game (step 1), then log out and back in.
-- **The board was dragged:** gold outlines show where it belongs; drag it back.
+- **The board was dragged:** the marks over the game follow it, and gold outlines show where it belongs; drag it back.
 - Everything the helper keeps is in `%APPDATA%\Arcana Helper`: its settings, its log (`logs\app.log`), and in
   `companion\` the board logs and pictures. Uninstalling (Windows Settings → Apps → Arcana Helper) leaves this folder;
   delete it by hand to remove everything.

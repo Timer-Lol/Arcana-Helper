@@ -13,6 +13,10 @@ const path = require('path');
 
 // The same V8 flag must be set when a .jsc is made and when it's loaded, or V8 rejects the bytecode.
 v8.setFlagsFromString('--no-lazy');
+// V8 throws away the bytecode of functions it hasn't run for a while (to save memory) and compiles them again from their
+// source when they're next called; a .jsc has no source (only a blank placeholder), so such a function would fail with
+// "SyntaxError: Unexpected end of input" (25 Oct: reproduced with --stress-flush-code). Keep the bytecode.
+v8.setFlagsFromString('--no-flush-bytecode');
 
 const MAGIC = 0x41484243; // "AHBC": Arcana Helper ByteCode
 
