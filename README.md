@@ -3,6 +3,9 @@
 Advice for the Arcana (Tarot Path) minigame in Torchlight Infinite. The helper reads the game as you play — the board,
 your hand, the refill die and your chests — and suggests the best move after each one.
 
+How well does it play? See **[what the simulations found](https://github.com/Timer-Lol/Arcana-Helper/blob/main/SIMULATION-RESULTS.md)**:
+tens of thousands of simulated boards, what wins more rainbows, and tips for playing upgrade cards.
+
 ## Start here
 1. **Once, in the game:** Esc → Account Related → **Enable Log**, then log out and back in.
 2. Download **`Arcana-Helper-Setup.exe`** from the [Releases page](https://github.com/Timer-Lol/Arcana-Helper/releases/latest)
