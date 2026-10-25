@@ -24,7 +24,8 @@ expected chest points and risk (here in Practice, which plays random boards with
 2. Download **`Arcana-Helper-Setup.exe`** from the [Releases page](https://github.com/Timer-Lol/Arcana-Helper/releases/latest)
    and run it. It installs in a few seconds (just for you, no admin needed), adds
    **Arcana Helper** to the Start menu and the desktop, and starts it. The helper opens in its own window and keeps
-   running in the tray. To update, run the newer Setup.exe the same way: your settings and board logs are kept.
+   running in the tray. **It updates itself:** a newer version downloads in the background and installs when you
+   restart the helper (tray menu → **Restart to update**). Your settings and board logs are kept.
    (Windows may say it "protected your PC" the first time: More info → Run anyway.)
 3. Play Arcana. When a board opens, the board fills in by itself and the advice comes up after each move. Anything the
    pictures can't tell, the helper asks you under **Tell me what happened**. Something wrong? **Ctrl+Alt+J** sends a bug report.
@@ -65,7 +66,8 @@ Here is exactly what it does with your PC and your data:
 - **The solver runs on your PC.** Every answer is worked out locally, not on a server. The helper's own server
   listens on `127.0.0.1` only, so nothing else on your network can reach it.
 - **No admin needed.** The installer installs just for your Windows user.
-- **Its only internet use:** the page's fonts load from Google Fonts, and a bug report goes to the author's own
+- **Its only internet use:** the page's fonts load from Google Fonts, the installed app checks this GitHub page's
+  releases for a newer version (it only reads the public release list), and a bug report goes to the author's own
   server when you send one. Nothing else.
 - **You can check it yourself.** Only the solver is compiled. The parts that handle your data (the log scrubber, the
   bug report, the board logs) ship as JavaScript in the `companion` folder: minified (shortened), not compiled or encrypted, so anyone can read it. Watch the helper with any

@@ -1,7 +1,7 @@
 {
   "name": "arcana-helper-app",
   "productName": "Arcana Helper",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "description": "Arcana Helper as a Windows app: its own window, tray and hotkeys, and the Vorax Helper's way of taking pictures of the game.",
   "license": "SEE LICENSE IN ../LICENSE",
   "author": "Timer",
@@ -11,7 +11,8 @@
     "start": "electron ."
   },
   "dependencies": {
-    "koffi": "2.16.3"
+    "koffi": "2.16.3",
+    "electron-updater": "6.3.9"
   },
   "devDependencies": {
     "electron": "44.5.1"
