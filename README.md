@@ -104,7 +104,8 @@ press Cancel and nothing is sent. You can also use **Report a bug** in the helpe
 the tray menu.
 
 A bug report holds that board's game lines (only the game's Tarot Path lines: chat, friends, account, player ids and
-everything else are dropped before anything is written), the helper's pictures of the game window (never your whole
+everything else are dropped before anything is written), the same kind of lines from between boards plus the names
+of the game screens you opened (so a board the helper missed can be looked into), the helper's pictures of the game window (never your whole
 screen), what the helper held at that moment, and your note. Nothing else is sent unless you turned on **Send my board
 logs**. The helper keeps the
 newest 40 boards on your PC so a report has something to show (tray menu → **Open the board logs folder**).
