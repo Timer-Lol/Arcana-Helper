@@ -1,7 +1,7 @@
 {
   "name": "arcana-helper-app",
   "productName": "Arcana Helper",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "Arcana Helper as a Windows app: its own window, tray and hotkeys, and the Vorax Helper's way of taking pictures of the game.",
   "license": "SEE LICENSE IN ../LICENSE",
   "author": "Timer",
