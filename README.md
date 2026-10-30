@@ -6,6 +6,8 @@ your hand, the refill die and your chests — and suggests the best move after e
 How well does it play? See **[what the simulations found](https://github.com/Timer-Lol/Arcana-Helper/blob/main/SIMULATION-RESULTS.md)**:
 tens of thousands of simulated boards, what wins more rainbows, and tips for playing upgrade cards.
 
+Why is it closed source? Well a lot of work went into polishing the program. Many tokens were spent and time was spent going through labeling 2500+ pictures for the reader to train off of to get into a good state. The logic feels super well tuned thanks to the help of some members of Ruetoo's community. The program feels smooth and it shows compared to the overlays we have so far. I will eventually open source it once a better Arcana tool comes along.
+
 ## Screenshots
 **Over the game:** the helper marks the best tile with **GO** and what to use (**USE DIE**, **PLAY** on a card), gold
 outlines show where the board belongs, and the panel on the right follows the board as you play.
